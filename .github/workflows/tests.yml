@@ -1,0 +1,33 @@
+---
+name: Tests
+
+on:
+  push:
+    branches-ignore:
+      - 'master'
+    pull_request:
+    pull_request_target:
+      types: [labeled]
+
+env:
+  GO_VERSION: 1.18
+  PYTHON_VERSION: '3.x'
+
+jobs:
+  tests:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Prepare env
+        uses: ./.github/actions/prepare-test-env
+
+      - name: Static code check
+        uses: ./.github/actions/static-code-check
+
+      - name: Unit tests
+        run:  go test ./lib
+
+      - name: Integration tests
+        run:  pytest -v test/integration
+
