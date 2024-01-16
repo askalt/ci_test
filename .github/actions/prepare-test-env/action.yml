@@ -16,3 +16,12 @@ runs:
         go run bootstrap.go
       shell: bash
 
+    - name: Install Tarantool
+      uses: tarantool/setup-tarantool@v1
+      with:
+        tarantool-version: '2.10'
+
+    - name: Echo Version
+      run:  |
+        tarantool -v
+      shell: bash
